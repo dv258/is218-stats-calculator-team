@@ -1,40 +1,46 @@
 import random
 
+
 class RandomGenerator:
 	def __init__(self):
 		pass
 
-def rangeInt(x,y):
-    return random.randint(x, y)
+	"""returns a random number betweeen [x, y), returns an integer if both ranges are integers"""
+	@staticmethod
+	def range(x, y):
+		if type(x) == int and type(y) == int:
+			return random.randrange(x, y)
 
-def rangeDec(x,y):
-    return random.uniform(a,b)
+		return random.random() * (y - x) + x
 
-def rangeIntSeeded(x, y, z);
-    random.seed(z)
-    return random.randint(x, y)
+	@staticmethod
+	def rangeSeeded(seed, x, y):
+		random.seed(seed)
 
-def rangeIntSeeded(x, y, z);
-    random.seed(z)
-    return random.uniform(x, y)
+		return RandomGenerator.range(x, y)
 
-def rangeListSeeded(x, y, z)
-    nums = []
-    for i in range(0, z):
-        nums.append(random.randint(x, y))
-    return nums
+	@staticmethod
+	def rangeListSeeded(seed, n, x, y):
+		data = []
+		for i in range(n):
+			data.append(RandomGenerator.range(x, y))
 
-def choose(elements);
-    return random.choice(elements)
+		return data
 
-def chooseN(elements, n);
-    values = []
-    for x in range(n):
-        values.append(random.choice(elements))
+	@staticmethod
+	def choose(data):
+		return data[RandomGenerator.range(0, len(data))]
 
-//elements: a list      n: number of elements       s: the seed
-def ChooseNSeeded(elements, n, s)
-    random.seed(s)
-    values = []
-    for x in range(n):
-        values.append(random.choice(elements))
+	@staticmethod
+	def chooseN(data, n):
+		choices = []
+		for x in range(n):
+			choices.append(RandomGenerator.choose(data))
+
+		return choices
+
+	@staticmethod
+	def chooseNSeeded(data, seed, n):
+		random.seed(seed)
+
+		return RandomGenerator.chooseN(data, n)
