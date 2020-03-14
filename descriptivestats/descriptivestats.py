@@ -1,4 +1,5 @@
 import math
+import numbers
 
 
 class DescriptiveStatistics:
@@ -7,15 +8,13 @@ class DescriptiveStatistics:
 
 	@staticmethod	# data is a list of numbers Mean is the average of a set of numbers.
 	def mean(data):
-		if len(data) == 0:
-			raise Exception("list is empty")
+		DescriptiveStatistics._checkList(data)
 
 		return sum(data) / len(data)
 
 	@staticmethod	# data is a list of numbers
 	def median(data):
-		if len(data) == 0:
-			raise Exception("list is empty")
+		DescriptiveStatistics._checkList(data)
 
 		sortedData = data[:]
 		sortedData.sort()
@@ -24,8 +23,7 @@ class DescriptiveStatistics:
 
 	@staticmethod	# data is a list of numbers Mode is the number which appears most often in a set of numbers
 	def mode(data):
-		if len(data) == 0:
-			raise Exception("list is empty")
+		DescriptiveStatistics._checkList(data)
 
 		count = {}
 		maxCount = 0
@@ -53,8 +51,8 @@ class DescriptiveStatistics:
 	"""sample standard deviation"""
 	@staticmethod
 	def stdev(data):	# data is a list of numbers The Standard Deviation is a measure of how spread out numbers are.
-		if len(data) == 0:
-			raise Exception("list is empty")
+		DescriptiveStatistics._checkList(data)
+
 		if len(data) - 1 == 0:
 			raise ZeroDivisionError()
 
@@ -69,8 +67,7 @@ class DescriptiveStatistics:
 	"""population standard deviation"""
 	@staticmethod
 	def pstdev(data):	# data is a list of numbers
-		if len(data) == 0:
-			raise Exception("list is empty")
+		DescriptiveStatistics._checkList(data)
 
 		mean = DescriptiveStatistics.mean(data)
 		total = 0
@@ -83,16 +80,16 @@ class DescriptiveStatistics:
 	"""sample variance"""
 	@staticmethod
 	def variance(data):	# data is a list of numbers The Variance is defined as: The average of the squared differences from the Mean.
-		if len(data) == 0:
-			raise Exception("list is empty")
+		DescriptiveStatistics._checkList(data)
 
 		return DescriptiveStatistics.stdev(data) ** 2
 
 	"""sample covariance"""
 	@staticmethod	# data1 is a list of numbers and data2 is another list of numbers
 	def covariance(data1, data2):
-		if len(data1) == 0 or len(data2) == 0:
-			raise Exception("list is empty")
+		DescriptiveStatistics._checkList(data1)
+		DescriptiveStatistics._checkList(data2)
+
 		if len(data1) - 1 == 0:
 			raise ZeroDivisionError()
 
@@ -108,8 +105,7 @@ class DescriptiveStatistics:
 	"""population covariance"""
 	@staticmethod	# data1 is a list of numbers and data2 is another list of numbers Covariance is a measure of the joint variability of two random variables.
 	def pcovariance(data1, data2):
-		if len(data1) == 0:
-			raise Exception("list is empty")
+		DescriptiveStatistics._checkList(data1)
 
 		mean1 = DescriptiveStatistics.mean(data1)
 		mean2 = DescriptiveStatistics.mean(data2)
@@ -120,10 +116,9 @@ class DescriptiveStatistics:
 
 		return total / len(data1)
 
-	@staticmethod	# data is a list of numbers A quartile is defined as a group of values and/or means that divide a data set into quarters, or groups of four. 
+	@staticmethod	# data is a list of numbers A quartile is defined as a group of values and/or means that divide a data set into quarters, or groups of four.
 	def quartiles(data):
-		if len(data) == 0:
-			raise Exception("list is empty")
+		DescriptiveStatistics._checkList(data)
 
 		sortedData = data[:]
 		sortedData.sort()
@@ -136,8 +131,7 @@ class DescriptiveStatistics:
 
 	@staticmethod	# data is a list of numbers
 	def skewness(data):
-		if len(data) == 0:
-			raise Exception("list is empty")
+		DescriptiveStatistics._checkList(data)
 
 		return 3 * (DescriptiveStatistics.mean(data) - DescriptiveStatistics.median(data)) / DescriptiveStatistics.stdev(data)
 
@@ -150,8 +144,7 @@ class DescriptiveStatistics:
 
 	@staticmethod	# data1 is a list of numbers and data2 is another list of numbers
 	def meanDeviation(data):
-		if len(data) == 0:
-			raise Exception("list is empty")
+		DescriptiveStatistics._checkList(data)
 
 		mean = DescriptiveStatistics.mean(data)
 		absdiff = []
@@ -188,3 +181,12 @@ class DescriptiveStatistics:
 			"end1idx": end1idx,
 			"start2idx": start2idx
 		}
+
+	@staticmethod
+	def _checkList(lst):
+		if len(lst) == 0:
+			raise Exception("list is empty")
+
+		for x in lst:
+			if not isinstance(x, numbers.Number):
+				raise Exception("list contains non-numeric value")
