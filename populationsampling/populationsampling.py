@@ -1,4 +1,5 @@
 import math
+import numbers
 import random
 
 import scipy.stats
@@ -12,8 +13,7 @@ class PopulationSampling:
 
 	@staticmethod
 	def simpleRandomSampling(data, n):
-		if len(data) == 0:
-			raise Exception("list is empty")
+		PopulationSampling._checkList(data)
 
 		sample = []
 
@@ -28,8 +28,8 @@ class PopulationSampling:
 
 	@staticmethod
 	def systematicSampling(data, n):
-		if len(data) == 0:
-			raise Exception("list is empty")
+		PopulationSampling._checkList(data)
+
 		if n == 0:
 			raise ZeroDivisionError()
 
@@ -48,8 +48,7 @@ class PopulationSampling:
 
 	@staticmethod
 	def confidenceInterval(data, confidence):
-		if len(data) == 0:
-			raise Exception("list is empty")
+		PopulationSampling._checkList(data)
 
 		mean = DescriptiveStatistics.mean(data)
 		se = scipy.stats.sem(data)
@@ -83,3 +82,12 @@ class PopulationSampling:
 	@staticmethod
 	def tscore(n, confidence):
 		return scipy.stats.t.ppf(confidence, n - 1)
+
+	@staticmethod
+	def _checkList(lst):
+		if len(lst) == 0:
+			raise Exception("list is empty")
+
+		for x in lst:
+			if not isinstance(x, numbers.Number):
+				raise Exception("list contains non-numeric value")
